@@ -351,6 +351,17 @@ body[data-fs="l"] .prose{font-size:1.22rem}
 /* print */
 @media print{header.top,.progress,.drawer,.drawer-bg,.ov,.settings,.glosspop,.splash,.pager,.routes,.grouplabel,.iconbtn,.subtabs,.timer,.figctrl,.backtop{display:none!important}
  body:before{display:none} body{background:#fff;color:#000} .prose,.prose *{color:#000!important} main{padding:0;max-width:100%} .card{break-inside:avoid} .tbl th,.tbl td,.prose th,.prose td{border-color:#999!important}}
+/* ---------- diagnóstico con foto ---------- */
+.photodrop{border:1.5px dashed var(--line);border-radius:16px;padding:32px 18px;text-align:center;cursor:pointer;background:var(--card)}
+.photodrop:hover{border-color:var(--accent)}
+.photodrop .pdicon{width:42px;height:42px;color:var(--faint);stroke:currentColor;fill:none;stroke-width:1.5;margin:0 auto 10px;display:block}
+.photodrop .pdt{font-family:var(--serif);font-size:1.18rem;color:var(--ink)}
+.photodrop .pds{color:var(--muted);font-size:.9rem;margin:6px auto 0;max-width:46ch}
+.phototools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
+.photostage{position:relative;background:#0b0d11;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pcanvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+.photobadge{position:absolute;top:8px;left:8px;background:rgba(11,13,17,.82);border:1px solid var(--line);border-radius:8px;padding:4px 9px;font-size:.76rem;color:var(--muted);pointer-events:none}
+.phototip{margin:8px 0 12px;color:var(--faint)}
 </style>
 </head>
 <body data-lang="es">
@@ -414,7 +425,7 @@ var T = {
    diagTitle:'Diagnóstico · la carta del reloj',diagSub:'Un grupo de impactos es un informe. Marcá dónde caen tus tiros respecto del punto de mira y descubrí la causa probable y su corrección.',
    handed:'Mano',right:'Diestro',left:'Zurdo',clickPos:'Tocá una posición del reloj',
    cause:'Causa probable',fix:'Corrección',pickHint:'Elegí la hora donde se agrupan tus impactos.',
-   drillsTitle:'Biblioteca de drills + timer',drillsSub:'46 ejercicios verificados de cuatro escuelas, más un cronómetro de tiro con beep de largada y par time.',
+   drillsTitle:'Biblioteca de drills',drillsSub:'46 ejercicios verificados de cuatro escuelas — la referencia de entrenamiento, buscable por tabla y modalidad.',
    timer:'Cronómetro de tiro',start:'Iniciar',stop:'Detener',reset:'Reiniciar',par:'Par (s)',delay:'Demora (s)',random:'Al azar',fixed:'Fijo',
    ready:'Listo',waitbeep:'Esperá el beep…',go:'¡YA!',parbeep:'Beep de par',loadedPar:'Par cargado',
    filterTable:'Tabla',all:'Todas',mode:'Modalidad',dry:'Seco',live:'Vivo',searchDrill:'Buscar drill…',useTimer:'▶ Timer',noPar:'sin par fijo',
@@ -437,7 +448,7 @@ var T = {
    diagTitle:'Diagnosis · the clock chart',diagSub:'A shot group is a report. Mark where your shots land relative to the aiming point and find the likely cause and its correction.',
    handed:'Hand',right:'Right-handed',left:'Left-handed',clickPos:'Tap a clock position',
    cause:'Likely cause',fix:'Correction',pickHint:'Pick the o’clock where your hits cluster.',
-   drillsTitle:'Drill library + timer',drillsSub:'46 verified drills from four schools, plus a shot timer with a start beep and par time.',
+   drillsTitle:'Drill library',drillsSub:'46 verified drills from four schools — the training reference, searchable by table and mode.',
    timer:'Shot timer',start:'Start',stop:'Stop',reset:'Reset',par:'Par (s)',delay:'Delay (s)',random:'Random',fixed:'Fixed',
    ready:'Ready',waitbeep:'Wait for the beep…',go:'GO!',parbeep:'Par beep',loadedPar:'Par loaded',
    filterTable:'Table',all:'All',mode:'Mode',dry:'Dry',live:'Live',searchDrill:'Search drill…',useTimer:'▶ Timer',noPar:'no fixed par',
@@ -489,11 +500,7 @@ function route(){
 var TOOLS=[
  {id:'diagnostico',cls:'t-diag',tag_es:'Diagnóstico',tag_en:'Diagnosis',es:'La carta del reloj',en:'The clock chart',s_es:'Tocá dónde caen tus tiros y hallá la causa',s_en:'Tap where your shots land to find the cause'},
  {id:'diagramas',cls:'t-diag',tag_es:'Diagramas',tag_en:'Diagrams',es:'Figuras interactivas',en:'Interactive figures',s_es:'Miras, empuñadura, postura, foco, interrupciones',s_en:'Sights, grip, stance, focus, malfunctions'},
- {id:'drills',cls:'t-tool',tag_es:'Herramienta',tag_en:'Tool',es:'Drills + timer',en:'Drills + timer',s_es:'46 drills y cronómetro de tiro con par time',s_en:'46 drills and a shot timer with par time'},
- {id:'tests',cls:'t-tool',tag_es:'Herramienta',tag_en:'Tool',es:'Tests y bitácora',en:'Tests & log',s_es:'Batería de tests y registro de entrenamiento',s_en:'Test battery and training log'},
- {id:'hitfactor',cls:'t-tool',tag_es:'Herramienta',tag_en:'Tool',es:'Hit factor',en:'Hit factor',s_es:'Calculadora de puntaje de stage (Comstock)',s_en:'Stage score calculator (Comstock)'},
- {id:'glosario',cls:'t-apendice',tag_es:'Apéndice B',tag_en:'Appendix B',es:'Glosario',en:'Glossary',s_es:DATA.tools.glossary.terms.length+' términos, buscable',s_en:DATA.tools.glossary.terms.length+' terms, searchable'},
- {id:'indice',cls:'t-apendice',tag_es:'Apéndice C',tag_en:'Appendix C',es:'Índice de drills',en:'Drill index',s_es:DATA.tools.index.entries.length+' ejercicios',s_en:DATA.tools.index.entries.length+' drills'}
+ {id:'drills',cls:'t-apendice',tag_es:'Referencia',tag_en:'Reference',es:'Biblioteca de drills',en:'Drill library',s_es:'46 ejercicios de referencia, buscables',s_en:'46 reference drills, searchable'}
 ];
 var ROUTES=[
  {id:'precision',es:'Precisión deportiva',en:'Sport precision',secs:['part1','part2','part3','part5','part7'],n_es:'Partes I · II · III · V · VII — con la IV como programa de entrenamiento.',n_en:'Parts I · II · III · V · VII — with IV as the training program.'},
@@ -653,8 +660,6 @@ function renderDiverge(b){
 function renderTool(id,app){
   if(id==='diagnostico')renderClock(app);
   else if(id==='drills')renderDrills(app);
-  else if(id==='tests')renderTests(app);
-  else if(id==='hitfactor')renderHitFactor(app);
   else if(id==='glosario')renderGlossary(app);
   else if(id==='indice')renderIndex(app);
   else if(id==='diagramas')renderDiagrams(app);
@@ -671,24 +676,28 @@ function renderClock(app){
   html+='<p style="color:var(--muted);max-width:62ch;margin:-6px 0 16px;font-size:.95rem">'+esc(L(c,'intro'))+'</p>';
   html+='<div class="row" style="margin-bottom:10px"><div class="pill mode">'+(lang==='es'?'Modo':'Mode')+':</div>'+
     '<button class="pill'+(clockMode==='pick'?' on':'')+'" onclick="setClockMode(\'pick\')">'+(lang==='es'?'Elegir posición':'Pick position')+'</button>'+
-    '<button class="pill'+(clockMode==='impacts'?' on':'')+'" onclick="setClockMode(\'impacts\')">'+(lang==='es'?'Marcar impactos':'Mark impacts')+'</button></div>';
+    '<button class="pill'+(clockMode==='impacts'?' on':'')+'" onclick="setClockMode(\'impacts\')">'+(lang==='es'?'Blanco en blanco':'Blank target')+'</button>'+
+    '<button class="pill'+(clockMode==='foto'?' on':'')+'" onclick="setClockMode(\'foto\')">'+(lang==='es'?'Con foto':'From a photo')+'</button></div>';
   html+='<div class="row" style="margin-bottom:14px"><div class="pill mode">'+t('handed')+':</div>'+
     '<button class="pill" id="hand-right" onclick="setHand(\'right\')">'+t('right')+'</button>'+
     '<button class="pill" id="hand-left" onclick="setHand(\'left\')">'+t('left')+'</button>'+
     (clockMode==='impacts'?'<button class="btn sec sm" style="margin-left:auto" onclick="clearImpacts()">'+(lang==='es'?'Limpiar':'Clear')+'</button>':'')+'</div>';
-  if(clockMode==='impacts')html+='<p class="small" style="margin:-4px 0 10px">'+(lang==='es'?'Tocá el blanco donde caen tus tiros; la app calcula el centro del grupo y sugiere el error.':'Tap the target where your shots land; the app computes the group center and suggests the error.')+'</p>';
-  html+='<div class="clockwrap"><div class="targetbox">'+clockSVG()+
-    '<div class="legend">'+
-    '<span><i style="background:#d98b5a"></i>'+(lang==='es'?'Disparador':'Trigger')+'</span>'+
-    '<span><i style="background:#5aa9c9"></i>'+(lang==='es'?'Empuñadura':'Grip')+'</span>'+
-    '<span><i style="background:#d8a24a"></i>'+(lang==='es'?'Muñeca':'Wrist')+'</span>'+
-    '<span><i style="background:#a98cd9"></i>Flinch</span></div></div>';
-  html+='<div class="diagres" id="diagres">'+(clockMode==='impacts'?impactResult():clockResult())+'</div></div>';
+  if(clockMode==='foto'){ html+=photoUI(); }
+  else {
+    if(clockMode==='impacts')html+='<p class="small" style="margin:-4px 0 10px">'+(lang==='es'?'Tocá el blanco donde caen tus tiros; la app calcula el centro del grupo y sugiere el error.':'Tap the target where your shots land; the app computes the group center and suggests the error.')+'</p>';
+    html+='<div class="clockwrap"><div class="targetbox">'+clockSVG()+
+      '<div class="legend">'+
+      '<span><i style="background:#d98b5a"></i>'+(lang==='es'?'Disparador':'Trigger')+'</span>'+
+      '<span><i style="background:#5aa9c9"></i>'+(lang==='es'?'Empuñadura':'Grip')+'</span>'+
+      '<span><i style="background:#d8a24a"></i>'+(lang==='es'?'Muñeca':'Wrist')+'</span>'+
+      '<span><i style="background:#a98cd9"></i>Flinch</span></div></div>';
+    html+='<div class="diagres" id="diagres">'+(clockMode==='impacts'?impactResult():clockResult())+'</div></div>';
+  }
   // notes
   var notes=(lang==='es'?c.notes_es:c.notes_en)||[];
   if(notes.length){html+='<div class="notes"><ul>';notes.forEach(function(n){html+='<li>'+esc(n)+'</li>';});html+='</ul></div>';}
   html+='</div>';
-  app.innerHTML=html;syncHand();
+  app.innerHTML=html;syncHand();if(clockMode==='foto'&&PHOTO.img)initPhoto();
 }
 var GROUPCOLOR={'disparador':'#d98b5a','empuñadura':'#5aa9c9','empunadura':'#5aa9c9','muñeca':'#d8a24a','muneca':'#d8a24a','flinch':'#a98cd9'};
 function angleFor(hour){var m={'12':0,'1':30,'2':60,'3':90,'4-5':135,'4':120,'5':150,'6':180,'7-8':225,'7':210,'8':240,'9':270,'10-11':315,'10':300,'11':330};return m[hour]!=null?m[hour]:0;}
@@ -740,7 +749,6 @@ function clockResult(){
 var drillFilter={table:'all',mode:'all',q:''};
 function renderDrills(app){
   var html='<div class="tool">'+toolHead('drillsTitle','drillsSub');
-  html+=timerHTML();
   // filters
   html+='<div class="grouplabel"><span>'+(lang==='es'?'Biblioteca':'Library')+'</span></div>';
   html+='<div class="row" style="margin-bottom:12px;align-items:end">';
@@ -750,7 +758,7 @@ function renderDrills(app){
   html+='<div class="field" style="min-width:120px"><label>'+t('mode')+'</label><select id="fMode" onchange="drillFilter.mode=this.value;drawDrills()"><option value="all">'+t('all')+'</option><option value="seco">'+t('dry')+'</option><option value="vivo">'+t('live')+'</option></select></div>';
   html+='<div class="field" style="flex:1;min-width:180px"><label>'+(lang==='es'?'Buscar':'Search')+'</label><input id="fQ" placeholder="'+t('searchDrill')+'" oninput="drillFilter.q=this.value;drawDrills()"></div>';
   html+='</div><div id="drilllist"></div></div>';
-  app.innerHTML=html;initTimer();drawDrills();showSafety();
+  app.innerHTML=html;drawDrills();
 }
 function drawDrills(){
   var host=document.getElementById('drilllist');if(!host)return;var out='';var n=0;
@@ -769,7 +777,6 @@ function drawDrills(){
       if(d.rounds&&d.rounds!=='—')out+='<span class="tagx"><b>'+t('rounds')+':</b> '+esc(d.rounds)+'</span>';
       var md=(d.mode||'');out+='<span class="tagx '+(md.indexOf('vivo')>=0?'vivo':'seco')+'">'+esc(md.split('/').map(function(m){return m==='seco'?t('dry'):(m==='vivo'?t('live'):m);}).join('/'))+'</span>';
       if(L(d,'par'))out+='<span class="tagx par">'+esc(L(d,'par'))+'</span>';
-      if(d.par_seconds!=null)out+='<button class="btn sec sm loadpar" onclick="loadPar('+d.par_seconds+')">'+t('useTimer')+' '+d.par_seconds+'s</button>';
       out+='</div></div>';
     });
   });
@@ -1126,26 +1133,27 @@ function dgSet(id,v){DGSTATE[id]=v;var s=document.getElementById('dg-'+id+'-svg'
 function segBtn(id,v,label){return '<button class="segb'+(DGSTATE[id]===v?' on':'')+'" onclick="dgSet(\''+id+'\',\''+v+'\')">'+label+'</button>';}
 var FIGR={},FIGC={},FIGCAP={};
 /* sight */
-FIGR.sight=function(){var st=DGSTATE.sight;var fx=155,fy=118;if(st==='alto')fy=98;if(st==='bajo')fy=138;if(st==='izq')fx=131;if(st==='der')fx=179;
- var tx=286,ty=92,ix=tx,iy=ty;if(st==='alto')iy=ty-22;if(st==='bajo')iy=ty+22;if(st==='izq')ix=tx-22;if(st==='der')ix=tx+22;
- return '<svg viewBox="0 0 340 210" role="img">'+
- '<rect x="0" y="0" width="340" height="210" fill="none"/>'+
- // rear sight blades
- '<rect x="96" y="120" width="34" height="60" rx="3" fill="#2a3345" stroke="#4a566e"/>'+
- '<rect x="210" y="120" width="34" height="60" rx="3" fill="#2a3345" stroke="#4a566e"/>'+
- // front post
- '<rect x="'+fx+'" y="'+fy+'" width="30" height="'+(180-fy)+'" rx="3" fill="#d8a24a" stroke="#8a6a2c"/>'+
- // reference level line
- '<line x1="96" y1="120" x2="244" y2="120" stroke="#5aa9c9" stroke-dasharray="4 4" opacity="'+(st==='correcta'?'.7':'.25')+'"/>'+
- '<text x="60" y="150" fill="#99a2b3" font-size="10" font-family="var(--sans)" text-anchor="middle">'+(lang==='es'?'alza':'rear')+'</text>'+
- '<text x="170" y="200" fill="#d8a24a" font-size="10" font-family="var(--sans)" text-anchor="middle">'+(lang==='es'?'guion':'front')+'</text>'+
- // mini target
- '<circle cx="286" cy="92" r="40" fill="#0b0d11" stroke="rgba(255,255,255,.12)"/>'+
- '<circle cx="286" cy="92" r="26" fill="none" stroke="rgba(255,255,255,.14)"/>'+
- '<circle cx="286" cy="92" r="12" fill="none" stroke="rgba(255,255,255,.2)"/>'+
- '<circle cx="'+ix+'" cy="'+iy+'" r="5.5" fill="#dd6b63"/>'+
- '<text x="286" y="150" fill="#6b7488" font-size="9" font-family="var(--sans)" text-anchor="middle">'+(lang==='es'?'impacto':'impact')+'</text>'+
- '</svg>';};
+FIGR.sight=function(){var st=DGSTATE.sight;var fx=123,fy=118;
+ if(st==='alto')fy=100;else if(st==='bajo')fy=134;else if(st==='izq')fx=112;else if(st==='der')fx=134;
+ var pw=34,base=180,lg=fx-104,rg=176-(fx+pw),ok=(st==='correcta');
+ var tx=302,ty=84,ix=tx,iy=ty;if(st==='alto')iy=ty-24;else if(st==='bajo')iy=ty+24;else if(st==='izq')ix=tx-24;else if(st==='der')ix=tx+24;
+ return '<svg viewBox="0 0 360 210" role="img">'+
+  '<rect x="70" y="118" width="34" height="62" rx="3" fill="#28303f" stroke="#48566e"/>'+
+  '<rect x="176" y="118" width="34" height="62" rx="3" fill="#28303f" stroke="#48566e"/>'+
+  '<rect x="104" y="'+fy+'" width="'+lg.toFixed(1)+'" height="'+(base-fy)+'" fill="'+(ok?'rgba(90,169,201,.30)':'rgba(90,169,201,.13)')+'"/>'+
+  '<rect x="'+(fx+pw)+'" y="'+fy+'" width="'+rg.toFixed(1)+'" height="'+(base-fy)+'" fill="'+(ok?'rgba(90,169,201,.30)':'rgba(90,169,201,.13)')+'"/>'+
+  '<rect x="'+fx+'" y="'+fy+'" width="'+pw+'" height="'+(base-fy)+'" rx="2" fill="#e0a53a" stroke="#8a6a2c"/>'+
+  '<line x1="66" y1="118" x2="214" y2="118" stroke="#5aa9c9" stroke-dasharray="5 4" opacity="'+(ok?'.85':'.35')+'"/>'+
+  (ok?'<text x="140" y="111" text-anchor="middle" fill="#5aa9c9" font-size="9" font-family="var(--sans)">'+(lang==='es'?'caras al mismo nivel · luz igual':'tops level · equal light')+'</text>':'')+
+  '<text x="140" y="198" text-anchor="middle" fill="#e0a53a" font-size="10" font-family="var(--sans)">'+(lang==='es'?'guion':'front sight')+'</text>'+
+  '<text x="52" y="152" text-anchor="middle" fill="#98a2b3" font-size="10" font-family="var(--sans)">'+(lang==='es'?'alza':'rear')+'</text>'+
+  '<circle cx="'+tx+'" cy="'+ty+'" r="42" fill="#0c0f14" stroke="rgba(255,255,255,.1)"/>'+
+  '<circle cx="'+tx+'" cy="'+ty+'" r="27" fill="none" stroke="rgba(255,255,255,.12)"/>'+
+  '<circle cx="'+tx+'" cy="'+ty+'" r="13" fill="none" stroke="rgba(255,255,255,.18)"/>'+
+  '<line x1="'+(tx-7)+'" y1="'+ty+'" x2="'+(tx+7)+'" y2="'+ty+'" stroke="rgba(224,165,58,.5)"/><line x1="'+tx+'" y1="'+(ty-7)+'" x2="'+tx+'" y2="'+(ty+7)+'" stroke="rgba(224,165,58,.5)"/>'+
+  '<circle cx="'+ix+'" cy="'+iy+'" r="6" fill="'+(ok?'#7ed08a':'#e5675e')+'" stroke="#0c0f14" stroke-width="1.2"/>'+
+  '<text x="'+tx+'" y="146" text-anchor="middle" fill="#69748a" font-size="9" font-family="var(--sans)">'+(lang==='es'?'impacto':'impact')+'</text>'+
+  '</svg>';};
 FIGC.sight=function(){return segBtn('sight','correcta',lang==='es'?'Correcta':'Correct')+segBtn('sight','alto',lang==='es'?'Guion alto':'Front high')+segBtn('sight','bajo',lang==='es'?'Guion bajo':'Front low')+segBtn('sight','izq',lang==='es'?'Izquierda':'Left')+segBtn('sight','der',lang==='es'?'Derecha':'Right');};
 FIGCAP.sight=function(){var m={correcta:['Alineación correcta: el guion centrado en la muesca, caras superiores al mismo nivel, con igual luz a ambos lados. El foco óptico va en el guion; alza y blanco quedan levemente borrosos.','Correct alignment: front sight centered in the notch, top faces level, equal light on both sides. Optical focus on the front sight; rear and target slightly blurred.'],
  alto:['El guion asoma por encima del alza → el disparo se va alto. Un error de alineación siempre desvía el tiro.','The front sight rides above the rear → the shot goes high. An alignment error always throws the shot off.'],
@@ -1219,6 +1227,86 @@ function impactResult(){if(IMPACTS.length<3)return '<p class="empty">'+(lang==='
  if(mag<20)return '<div class="pos">'+(lang==='es'?'Grupo centrado':'Centered group')+'</div><p class="err">'+(lang==='es'?'Bien':'Good')+'</p><p>'+(lang==='es'?'El centro del grupo cae en el punto de mira: técnica correcta o error demasiado pequeño para diagnosticar. Revisá el tamaño del grupo (foco).':'The group center falls on the aiming point: correct technique or an error too small to diagnose. Check group size (focus).')+'</p>';
  var hr=nearestHour(dx,dy);clockSel=hr;var p=DATA.tools.clock.positions.filter(function(x){return x.hour===hr;})[0];if(!p)return '';
  return '<div class="pos">'+(lang==='es'?'Grupo hacia las':'Group toward')+' '+esc(hr)+' · '+esc(L(p,'label'))+'</div><p class="err">'+esc(L(p,'name'))+'</p><h5>'+t('cause')+'</h5><p>'+esc(L(p,'cause'))+'</p><h5>'+t('fix')+'</h5><p>'+decorate(esc(L(p,'fix')))+'</p>';}
+
+/* ================= ENHANCEMENTS · diagnóstico con foto ================= */
+var PHOTO={img:null,scale:1,tx:0,ty:0,center:null,shots:[],mode:'centro',_pointers:new Map(),_pinch:null,_down:null,_fresh:false,_W:360,_H:300,_dpr:1};
+function photoUI(){
+ if(!PHOTO.img){
+  return '<input type="file" accept="image/*" id="photoinput" style="display:none" onchange="photoFile(this)">'+
+   '<div class="photodrop" onclick="document.getElementById(\'photoinput\').click()">'+
+   '<svg viewBox="0 0 24 24" class="pdicon" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.2"/></svg>'+
+   '<div class="pdt">'+(lang==='es'?'Subí o sacá una foto de tu blanco':'Upload or take a photo of your target')+'</div>'+
+   '<div class="pds">'+(lang==='es'?'Después marcás el centro (a dónde apuntabas) y cada impacto. La foto no sale de tu dispositivo.':'Then mark the center (where you aimed) and each impact. The photo never leaves your device.')+'</div></div>';
+ }
+ return '<div class="photowrap">'+
+  '<div class="phototools">'+
+   '<span class="pill mode">'+(lang==='es'?'Marcar:':'Mark:')+'</span>'+
+   '<button class="pill'+(PHOTO.mode==='centro'?' on':'')+'" id="pm-centro" onclick="setPhotoMode(\'centro\')">'+(lang==='es'?'① Centro':'① Center')+'</button>'+
+   '<button class="pill'+(PHOTO.mode==='impactos'?' on':'')+'" id="pm-impactos" onclick="setPhotoMode(\'impactos\')">'+(lang==='es'?'② Impactos':'② Impacts')+'</button>'+
+   '<button class="btn sec sm" onclick="photoUndo()">'+(lang==='es'?'Deshacer':'Undo')+'</button>'+
+   '<button class="btn sec sm" onclick="photoClearShots()">'+(lang==='es'?'Limpiar':'Clear')+'</button>'+
+   '<button class="btn sec sm" style="margin-left:auto" onclick="photoAnother()">'+(lang==='es'?'Otra foto':'New photo')+'</button>'+
+  '</div>'+
+  '<div class="photostage"><canvas id="pcanvas" class="pcanvas"></canvas><div class="photobadge" id="photobadge"></div></div>'+
+  '<div class="small phototip">'+(lang==='es'?'Pellizcá con dos dedos para acercar · arrastrá para mover · tocá para marcar (tocá un impacto para borrarlo)':'Pinch with two fingers to zoom · drag to move · tap to mark (tap an impact to remove it)')+'</div>'+
+  '<div class="diagres" id="diagres">'+photoResult()+'</div></div>';
+}
+function photoFile(input){var f=input.files&&input.files[0];if(!f)return;var url=URL.createObjectURL(f);var im=new Image();
+ im.onload=function(){PHOTO.img=im;PHOTO.center=null;PHOTO.shots=[];PHOTO.mode='centro';PHOTO._fresh=true;renderClock(document.getElementById('app'));};
+ im.src=url;}
+function initPhoto(){var cv=document.getElementById('pcanvas');if(!cv||!cv.getContext)return;var wrap=cv.parentNode;var W=(wrap&&wrap.clientWidth)||360;
+ var dpr=window.devicePixelRatio||1;var H=Math.max(240,Math.min(460,Math.round(W*0.78)));
+ PHOTO._W=W;PHOTO._H=H;PHOTO._dpr=dpr;cv.style.width=W+'px';cv.style.height=H+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+ if(PHOTO._fresh){fitPhoto();PHOTO._fresh=false;}
+ attachPhotoEvents(cv);syncPhotoTools();drawPhoto();}
+function fitPhoto(){var iw=PHOTO.img.naturalWidth,ih=PHOTO.img.naturalHeight;var s=Math.min(PHOTO._W/iw,PHOTO._H/ih);PHOTO.scale=s;PHOTO.tx=(PHOTO._W-iw*s)/2;PHOTO.ty=(PHOTO._H-ih*s)/2;}
+function drawPhoto(){var cv=document.getElementById('pcanvas');if(!cv||!cv.getContext)return;var ctx=cv.getContext('2d');
+ ctx.setTransform(PHOTO._dpr,0,0,PHOTO._dpr,0,0);ctx.clearRect(0,0,PHOTO._W,PHOTO._H);ctx.fillStyle='#0b0d11';ctx.fillRect(0,0,PHOTO._W,PHOTO._H);
+ ctx.imageSmoothingEnabled=true;ctx.drawImage(PHOTO.img,PHOTO.tx,PHOTO.ty,PHOTO.img.naturalWidth*PHOTO.scale,PHOTO.img.naturalHeight*PHOTO.scale);
+ function S(p){return {x:p.x*PHOTO.scale+PHOTO.tx,y:p.y*PHOTO.scale+PHOTO.ty};}
+ if(PHOTO.center&&PHOTO.shots.length>=3){var mx=0,my=0;PHOTO.shots.forEach(function(p){mx+=p.x;my+=p.y;});mx/=PHOTO.shots.length;my/=PHOTO.shots.length;var cen=S({x:mx,y:my}),cc=S(PHOTO.center);
+  ctx.strokeStyle='#4fd1b5';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(cc.x,cc.y);ctx.lineTo(cen.x,cen.y);ctx.stroke();ctx.setLineDash([]);
+  ctx.beginPath();ctx.arc(cen.x,cen.y,5,0,6.2832);ctx.fillStyle='#4fd1b5';ctx.fill();}
+ PHOTO.shots.forEach(function(p){var s=S(p);ctx.beginPath();ctx.arc(s.x,s.y,7,0,6.2832);ctx.fillStyle='rgba(229,103,94,.9)';ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle='#0b0d11';ctx.stroke();});
+ if(PHOTO.center){var c=S(PHOTO.center);ctx.strokeStyle='#e0a53a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(c.x-13,c.y);ctx.lineTo(c.x+13,c.y);ctx.moveTo(c.x,c.y-13);ctx.lineTo(c.x,c.y+13);ctx.stroke();ctx.beginPath();ctx.arc(c.x,c.y,15,0,6.2832);ctx.strokeStyle='rgba(224,165,58,.6)';ctx.lineWidth=1.5;ctx.stroke();}}
+function relPos(cv,e){var r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+function attachPhotoEvents(cv){if(cv._wired)return;cv._wired=true;
+ cv.addEventListener('pointerdown',pDown);cv.addEventListener('pointermove',pMove);cv.addEventListener('pointerup',pUp);cv.addEventListener('pointercancel',pUp);
+ cv.addEventListener('wheel',pWheel,{passive:false});}
+function pDown(e){var cv=e.currentTarget;if(cv.setPointerCapture)try{cv.setPointerCapture(e.pointerId);}catch(_){}
+ var p=relPos(cv,e);PHOTO._pointers.set(e.pointerId,p);
+ if(PHOTO._pointers.size===1){PHOTO._down={x:p.x,y:p.y,moved:false,t:Date.now()};}
+ else if(PHOTO._pointers.size===2){startPinch();PHOTO._down=null;}}
+function pMove(e){var cv=e.currentTarget;if(!PHOTO._pointers.has(e.pointerId))return;var p=relPos(cv,e);var prev=PHOTO._pointers.get(e.pointerId);PHOTO._pointers.set(e.pointerId,p);
+ if(PHOTO._pointers.size>=2){doPinch();}
+ else if(PHOTO._pointers.size===1){PHOTO.tx+=p.x-prev.x;PHOTO.ty+=p.y-prev.y;if(PHOTO._down&&(Math.abs(p.x-PHOTO._down.x)>6||Math.abs(p.y-PHOTO._down.y)>6))PHOTO._down.moved=true;drawPhoto();}}
+function pUp(e){if(!PHOTO._pointers.has(e.pointerId))return;var cv=e.currentTarget;var p=relPos(cv,e);PHOTO._pointers.delete(e.pointerId);if(PHOTO._pointers.size<2)PHOTO._pinch=null;
+ if(PHOTO._down&&!PHOTO._down.moved&&PHOTO._pointers.size===0&&(Date.now()-PHOTO._down.t)<600){tapPhoto(p.x,p.y);}PHOTO._down=null;}
+function startPinch(){var a=Array.from(PHOTO._pointers.values());var mx=(a[0].x+a[1].x)/2,my=(a[0].y+a[1].y)/2;var d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);PHOTO._pinch={d:d,scale:PHOTO.scale,ix:(mx-PHOTO.tx)/PHOTO.scale,iy:(my-PHOTO.ty)/PHOTO.scale};}
+function doPinch(){var a=Array.from(PHOTO._pointers.values());if(a.length<2||!PHOTO._pinch)return;var mx=(a[0].x+a[1].x)/2,my=(a[0].y+a[1].y)/2;var d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+ var s=Math.max(0.2,Math.min(14,PHOTO._pinch.scale*(d/PHOTO._pinch.d)));PHOTO.scale=s;PHOTO.tx=mx-PHOTO._pinch.ix*s;PHOTO.ty=my-PHOTO._pinch.iy*s;drawPhoto();}
+function pWheel(e){e.preventDefault();var cv=e.currentTarget;var p=relPos(cv,e);var ns=Math.max(0.2,Math.min(14,PHOTO.scale*Math.exp(-e.deltaY*0.0015)));var ix=(p.x-PHOTO.tx)/PHOTO.scale,iy=(p.y-PHOTO.ty)/PHOTO.scale;PHOTO.scale=ns;PHOTO.tx=p.x-ix*ns;PHOTO.ty=p.y-iy*ns;drawPhoto();}
+function tapPhoto(px,py){var ix=(px-PHOTO.tx)/PHOTO.scale,iy=(py-PHOTO.ty)/PHOTO.scale;
+ if(PHOTO.mode==='centro'){PHOTO.center={x:ix,y:iy};PHOTO.mode='impactos';syncPhotoTools();}
+ else{var rem=-1;for(var i=0;i<PHOTO.shots.length;i++){var s=PHOTO.shots[i];if(Math.hypot((s.x-ix)*PHOTO.scale,(s.y-iy)*PHOTO.scale)<11){rem=i;break;}}if(rem>=0)PHOTO.shots.splice(rem,1);else PHOTO.shots.push({x:ix,y:iy});}
+ drawPhoto();updatePhotoResult();}
+function setPhotoMode(m){PHOTO.mode=m;syncPhotoTools();}
+function photoUndo(){if(PHOTO.mode==='centro'){PHOTO.center=null;}else{PHOTO.shots.pop();}drawPhoto();updatePhotoResult();}
+function photoClearShots(){PHOTO.shots=[];drawPhoto();updatePhotoResult();}
+function photoAnother(){PHOTO.img=null;PHOTO.center=null;PHOTO.shots=[];PHOTO.mode='centro';renderClock(document.getElementById('app'));}
+function syncPhotoTools(){var a=document.getElementById('pm-centro'),b=document.getElementById('pm-impactos');if(a)a.classList.toggle('on',PHOTO.mode==='centro');if(b)b.classList.toggle('on',PHOTO.mode==='impactos');
+ var badge=document.getElementById('photobadge');if(badge)badge.textContent=PHOTO.center?((lang==='es'?'Impactos: ':'Impacts: ')+PHOTO.shots.length):(lang==='es'?'Tocá el centro del blanco':'Tap the target center');updatePhotoResult();}
+function updatePhotoResult(){var d=document.getElementById('diagres');if(d)d.innerHTML=photoResult();var badge=document.getElementById('photobadge');if(badge)badge.textContent=PHOTO.center?((lang==='es'?'Impactos: ':'Impacts: ')+PHOTO.shots.length):(lang==='es'?'Tocá el centro del blanco':'Tap the target center');}
+function photoResult(){
+ if(!PHOTO.img)return '';
+ if(!PHOTO.center)return '<p class="empty">'+(lang==='es'?'Paso 1: tocá el centro del blanco (a dónde apuntabas).':'Step 1: tap the center of the target (where you aimed).')+'</p>';
+ if(PHOTO.shots.length<3)return '<p class="empty">'+(lang==='es'?('Paso 2: marcá al menos 3 impactos. Llevás '+PHOTO.shots.length+'.'):('Step 2: mark at least 3 impacts. You have '+PHOTO.shots.length+'.'))+'</p>';
+ var mx=0,my=0;PHOTO.shots.forEach(function(p){mx+=p.x;my+=p.y;});mx/=PHOTO.shots.length;my/=PHOTO.shots.length;var dx=mx-PHOTO.center.x,dy=my-PHOTO.center.y;
+ var diag=Math.hypot(PHOTO.img.naturalWidth,PHOTO.img.naturalHeight)||1;var mag=Math.hypot(dx,dy)/diag;
+ if(mag<0.02)return '<div class="pos">'+(lang==='es'?'Grupo centrado':'Centered group')+'</div><p class="err">'+(lang==='es'?'Bien':'Good')+'</p><p>'+(lang==='es'?'El centro del grupo cae en el punto de mira: técnica correcta o error muy chico. Revisá el tamaño del grupo (foco, cap. 6).':'The group center falls on the aiming point: correct technique or a very small error. Check group size (focus, ch. 6).')+'</p>';
+ var hr=nearestHour(dx,dy);var p=DATA.tools.clock.positions.filter(function(x){return x.hour===hr;})[0];if(!p)return '';
+ return '<div class="pos">'+(lang==='es'?'Grupo hacia las':'Group toward')+' '+esc(hr)+' · '+esc(L(p,'label'))+'</div><p class="err">'+esc(L(p,'name'))+'</p><h5>'+t('cause')+'</h5><p>'+esc(L(p,'cause'))+'</p><h5>'+t('fix')+'</h5><p>'+decorate(esc(L(p,'fix')))+'</p>';
+}
 
 /* ================= ENHANCEMENTS · mic shot timer ================= */
 var MIC={stream:null,an:null,raf:null,last:0};var SPLITS=[];
